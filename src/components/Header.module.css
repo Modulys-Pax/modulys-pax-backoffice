@@ -1,0 +1,226 @@
+.header {
+  background: var(--bg-card);
+  padding: 20px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--gray-100);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(8px);
+}
+
+[data-theme="dark"] .header {
+  background: rgba(26, 29, 39, 0.95);
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Search Box */
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  width: 260px;
+  transition: all var(--transition-base);
+}
+
+.searchBox:focus-within {
+  background: white;
+  border-color: var(--primary-300);
+  box-shadow: 0 0 0 4px var(--primary-50);
+}
+
+.searchIcon {
+  color: var(--gray-400);
+  flex-shrink: 0;
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.searchInput::placeholder {
+  color: var(--gray-400);
+}
+
+.searchShortcut {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gray-400);
+  background: var(--gray-100);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+/* Date Box */
+.dateBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--gray-50);
+  border-radius: var(--radius-lg);
+  font-size: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.dateBox svg {
+  color: var(--gray-400);
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconBtn {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-200);
+  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+.iconBtn:hover {
+  border-color: var(--primary-200);
+  background: var(--primary-50);
+  color: var(--primary-600);
+}
+
+.notificationDot {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  background: var(--error-500);
+  border-radius: var(--radius-full);
+  border: 2px solid white;
+}
+
+/* User Menu */
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px 8px 8px;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  border: 1px solid transparent;
+  margin-left: 8px;
+}
+
+.userMenu:hover {
+  background: var(--gray-50);
+  border-color: var(--gray-200);
+}
+
+.userAvatar {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--secondary-500) 100%);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.userRole {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+.userChevron {
+  color: var(--gray-400);
+  margin-left: 4px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .dateBox {
+    display: none;
+  }
+  
+  .searchBox {
+    width: 200px;
+  }
+}
+
+@media (max-width: 900px) {
+  .searchBox {
+    display: none;
+  }
+  
+  .userInfo {
+    display: none;
+  }
+}
