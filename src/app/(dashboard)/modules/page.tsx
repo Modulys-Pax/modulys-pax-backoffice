@@ -22,7 +22,7 @@ export default function ModulesPage() {
     description: '',
     version: '1.0.0',
     repositoryUrl: '',
-    modulePath: '',      // Nome da pasta do projeto (ex: grayskull-baileys-service)
+    modulePath: '',      // Nome da pasta do projeto (ex: modulys-pax-baileys-service)
     migrationsPath: '',  // Subpasta das migrations (padrão: prisma)
   });
 
@@ -331,7 +331,7 @@ export default function ModulesPage() {
               label="Pasta do Projeto *"
               value={formData.modulePath}
               onChange={(e) => setFormData({ ...formData, modulePath: e.target.value.replace(/[^a-zA-Z0-9_-]/g, '') })}
-              placeholder="grayskull-baileys-service"
+              placeholder="modulys-pax-baileys-service"
               required
             />
             <div className={styles.formGrid}>

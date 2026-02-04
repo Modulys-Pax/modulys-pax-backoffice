@@ -59,24 +59,32 @@ export default function DashboardPage() {
       value: stats.totalTenants,
       icon: Building2,
       gradient: 'purple',
+      change: 0,
+      positive: true,
     },
     {
       title: 'Clientes Ativos',
       value: stats.activeTenants,
       icon: Users,
       gradient: 'green',
+      change: 0,
+      positive: true,
     },
     {
       title: 'Em Trial',
       value: stats.trialTenants,
       icon: TrendingUp,
       gradient: 'orange',
+      change: 0,
+      positive: true,
     },
     {
       title: 'Receita Mensal',
       value: `R$ ${stats.revenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`,
       icon: CreditCard,
       gradient: 'blue',
+      change: 0,
+      positive: true,
     },
   ];
 
@@ -97,7 +105,7 @@ export default function DashboardPage() {
           <div className={styles.welcomeContent}>
             <div className={styles.welcomeText}>
               <span className={styles.welcomeGreeting}>{getGreeting()}, Administrador!</span>
-              <h2 className={styles.welcomeTitle}>Bem-vindo ao Grayskull Admin</h2>
+              <h2 className={styles.welcomeTitle}>Bem-vindo ao Modulys Pax Admin</h2>
               <p className={styles.welcomeDescription}>
                 {stats.totalTenants > 0 
                   ? <>Você tem <strong>{stats.totalTenants} cliente{stats.totalTenants > 1 ? 's' : ''}</strong> cadastrado{stats.totalTenants > 1 ? 's' : ''}.</>

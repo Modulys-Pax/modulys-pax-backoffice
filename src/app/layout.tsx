@@ -7,8 +7,8 @@ import '@/styles/globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Grayskull Admin',
-  description: 'Painel Administrativo do Grayskull ERP',
+  title: 'Modulys Pax Admin',
+  description: 'Painel Administrativo do Modulys Pax',
   icons: {
     icon: '/favicon.svg',
   },

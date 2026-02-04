@@ -8,7 +8,7 @@ import styles from './page.module.css';
 
 export default function LoginPage() {
   const { login } = useAuth();
-  const [email, setEmail] = useState('admin@grayskull.com.br');
+  const [email, setEmail] = useState('admin@modulys-pax.com.br');
   const [password, setPassword] = useState('admin123');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ export default function LoginPage() {
       <div className={styles.left}>
         <div className={styles.brand}>
           <div className={styles.logo}>G</div>
-          <h1>Grayskull</h1>
+          <h1>Modulys Pax</h1>
           <p>Painel Administrativo</p>
         </div>
 
@@ -142,7 +142,7 @@ export default function LoginPage() {
           </form>
 
           <div className={styles.footer}>
-            <p>Grayskull ERP &copy; 2026. Todos os direitos reservados.</p>
+            <p>Modulys Pax &copy; 2026. Todos os direitos reservados.</p>
           </div>
         </div>
       </div>

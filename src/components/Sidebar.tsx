@@ -27,10 +27,10 @@ export function Sidebar() {
       {/* Logo */}
       <div className={styles.logo}>
         <div className={styles.logoIcon}>
-          <span>G</span>
+          <span>M</span>
         </div>
         <div className={styles.logoText}>
-          <span className={styles.logoName}>Grayskull</span>
+          <span className={styles.logoName}>Modulys Pax</span>
           <span className={styles.logoTag}>Admin</span>
         </div>
       </div>
