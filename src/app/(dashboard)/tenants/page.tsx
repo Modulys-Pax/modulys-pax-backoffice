@@ -259,7 +259,7 @@ export default function TenantsPage() {
     setLoadingGenerate(true);
     try {
       await downloadProjectZip(tenantForGenerate.id, selectedTemplateId);
-      alert('Download iniciado! Descompacte o ZIP e suba no repositório do cliente.');
+      alert('Download iniciado! O ZIP contém frontend/ e backend/. Descompacte e configure .env em cada pasta.');
       setShowGenerateModal(false);
       setTenantForGenerate(null);
     } catch (error: any) {
@@ -487,13 +487,13 @@ export default function TenantsPage() {
       <Modal
         isOpen={showGenerateModal}
         onClose={() => { setShowGenerateModal(false); setTenantForGenerate(null); }}
-        title="Criar projeto (frontend)"
+        title="Criar projeto (frontend + backend)"
         size="md"
       >
         <ModalBody>
           {tenantForGenerate && (
             <p className={styles.generateInfo}>
-              Cliente: <strong>{tenantForGenerate.name}</strong> ({tenantForGenerate.code}). Escolha o template e o ZIP será baixado.
+              Cliente: <strong>{tenantForGenerate.name}</strong> ({tenantForGenerate.code}). O ZIP inclui pasta <strong>frontend</strong> e pasta <strong>backend</strong> (login + proxy Core/Chat).
             </p>
           )}
           <div className={styles.formGroup}>
