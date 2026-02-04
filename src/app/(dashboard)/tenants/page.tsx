@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Plus, Search, Building2, Mail, Phone, Check, Puzzle, Package, Pencil, Trash2, Database, Play, Wand2, Power } from 'lucide-react';
+import { Plus, Search, Building2, Mail, Phone, Check, Puzzle, Package, Pencil, Trash2, Database, Play, Wand2, Power, FileCode2, Download } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Button, Input, Modal, ModalBody, ModalFooter } from '@/components/ui';
-import { tenantsService, plansService, modulesService, provisioningService, migrationsService } from '@/lib/api';
+import { tenantsService, plansService, modulesService, provisioningService, migrationsService, templatesService, downloadProjectZip } from '@/lib/api';
 import styles from './page.module.css';
 
 type ConfigMode = 'template' | 'custom';
@@ -55,6 +55,11 @@ export default function TenantsPage() {
     moduleIds: [] as string[],
   });
   const [loadingTenantId, setLoadingTenantId] = useState<string | null>(null);
+  const [showGenerateModal, setShowGenerateModal] = useState(false);
+  const [tenantForGenerate, setTenantForGenerate] = useState<any>(null);
+  const [templates, setTemplates] = useState<any[]>([]);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>('');
+  const [loadingGenerate, setLoadingGenerate] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -229,6 +234,38 @@ export default function TenantsPage() {
       alert(error.message || 'Erro ao aplicar migrations');
     } finally {
       setLoadingTenantId(null);
+    }
+  };
+
+  const openGenerateModal = async (tenant: any) => {
+    setTenantForGenerate(tenant);
+    setSelectedTemplateId('');
+    setShowGenerateModal(true);
+    try {
+      const list = await templatesService.findAll();
+      setTemplates(list);
+      if (list.length > 0) setSelectedTemplateId(list[0].id);
+    } catch (e) {
+      console.error(e);
+      alert('Erro ao carregar templates');
+    }
+  };
+
+  const handleGenerateProject = async () => {
+    if (!tenantForGenerate || !selectedTemplateId) {
+      alert('Selecione um template');
+      return;
+    }
+    setLoadingGenerate(true);
+    try {
+      await downloadProjectZip(tenantForGenerate.id, selectedTemplateId);
+      alert('Download iniciado! Descompacte o ZIP e suba no repositório do cliente.');
+      setShowGenerateModal(false);
+      setTenantForGenerate(null);
+    } catch (error: any) {
+      alert(error.message || 'Erro ao gerar projeto');
+    } finally {
+      setLoadingGenerate(false);
     }
   };
 
@@ -423,10 +460,21 @@ export default function TenantsPage() {
                       {loadingTenantId === tenant.id ? 'Aplicando...' : 'Aplicar Migrations'}
                     </Button>
                   ) : (
-                    <div className={styles.provisionedBadge}>
-                      <Check size={16} />
-                      Sistema Configurado
-                    </div>
+                    <>
+                      <div className={styles.provisionedBadge}>
+                        <Check size={16} />
+                        Sistema Configurado
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => openGenerateModal(tenant)}
+                        icon={<Download size={16} />}
+                        style={{ width: '100%', marginTop: 8 }}
+                      >
+                        Criar projeto (ZIP)
+                      </Button>
+                    </>
                   )}
                 </div>
               </div>
@@ -434,6 +482,48 @@ export default function TenantsPage() {
           )}
         </div>
       </div>
+
+      {/* Modal Gerar Projeto (ZIP) */}
+      <Modal
+        isOpen={showGenerateModal}
+        onClose={() => { setShowGenerateModal(false); setTenantForGenerate(null); }}
+        title="Criar projeto (frontend)"
+        size="md"
+      >
+        <ModalBody>
+          {tenantForGenerate && (
+            <p className={styles.generateInfo}>
+              Cliente: <strong>{tenantForGenerate.name}</strong> ({tenantForGenerate.code}). Escolha o template e o ZIP será baixado.
+            </p>
+          )}
+          <div className={styles.formGroup}>
+            <label>Template</label>
+            <select
+              className={styles.select}
+              value={selectedTemplateId}
+              onChange={(e) => setSelectedTemplateId(e.target.value)}
+            >
+              {templates.map((t) => (
+                <option key={t.id} value={t.id}>{t.name} ({t.code})</option>
+              ))}
+            </select>
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="ghost" type="button" onClick={() => { setShowGenerateModal(false); setTenantForGenerate(null); }}>
+            Cancelar
+          </Button>
+          <Button
+            type="button"
+            onClick={handleGenerateProject}
+            disabled={!selectedTemplateId || loadingGenerate}
+            loading={loadingGenerate}
+            icon={<Download size={16} />}
+          >
+            {loadingGenerate ? 'Gerando...' : 'Baixar ZIP'}
+          </Button>
+        </ModalFooter>
+      </Modal>
 
       {/* Modal Criar/Editar Cliente */}
       <Modal 

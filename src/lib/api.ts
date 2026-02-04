@@ -100,3 +100,38 @@ export const migrationsService = {
   apply: (tenantId: string) => api.post<any>(`/migrations/tenant/${tenantId}/apply`),
   getStatus: (tenantId: string) => api.get<any>(`/migrations/tenant/${tenantId}/status`),
 };
+
+// Templates (para geração de projetos)
+export const templatesService = {
+  findAll: (all?: boolean) => api.get<any[]>(`/templates${all ? '?all=true' : ''}`),
+  findById: (id: string) => api.get<any>(`/templates/${id}`),
+};
+
+// Project Generator - download ZIP do frontend gerado
+export async function downloadProjectZip(tenantId: string, templateId: string): Promise<void> {
+  const token = Cookies.get('admin_token');
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api/admin';
+  const url = `${API_URL}/project-generator/generate?tenantId=${encodeURIComponent(tenantId)}&templateId=${encodeURIComponent(templateId)}`;
+  const res = await fetch(url, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+  if (res.status === 401) {
+    Cookies.remove('admin_token');
+    Cookies.remove('admin_user');
+    if (typeof window !== 'undefined') window.location.href = '/login';
+    throw new Error('Não autorizado');
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ message: 'Erro ao gerar projeto' }));
+    throw new Error(err.message || 'Erro ao gerar projeto');
+  }
+  const blob = await res.blob();
+  const disposition = res.headers.get('Content-Disposition');
+  const match = disposition?.match(/filename="?([^";]+)"?/);
+  const filename = match?.[1]?.trim() || `frontend-${tenantId}-${templateId}.zip`;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}

@@ -6,6 +6,7 @@ import {
   LayoutDashboard, 
   Building2, 
   Package, 
+  FileCode2,
   LogOut,
   ChevronRight,
 } from 'lucide-react';
@@ -16,6 +17,7 @@ const menuItems = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/tenants', label: 'Clientes', icon: Building2 },
   { path: '/modules', label: 'Módulos', icon: Package },
+  { path: '/templates', label: 'Templates', icon: FileCode2 },
 ];
 
 export function Sidebar() {

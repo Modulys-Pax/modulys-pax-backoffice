@@ -301,6 +301,16 @@
   margin-bottom: 18px;
 }
 
+.generateInfo {
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.generateInfo strong {
+  color: var(--text-primary);
+}
+
 .formGroup {
   display: flex;
   flex-direction: column;
